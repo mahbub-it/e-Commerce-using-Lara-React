@@ -1,0 +1,80 @@
+cat << 'EOF' > Ubuntu_PC2_Git_SSH_Guide.txt
+===================================================================
+UBUNTU PC 2: PASSWORDLESS GIT PUSH SETUP GUIDE
+===================================================================
+Target Email: bdsmrahman@gmail.com
+GitHub Profile: mahbub-it
+Repository: e-Commerce-using-Lara-React
+
+This guide ensures your second Ubuntu PC pushes code seamlessly 
+without prompting for usernames or passwords.
+
+-------------------------------------------------------------------
+STEP 1: Generate a Unique SSH Key for PC 2
+-------------------------------------------------------------------
+Run this command to create a key explicitly isolated for this machine:
+
+  ssh-keygen -t ed25519 -C "bdsmrahman@gmail.com" -f ~/.ssh/id_ed25519_pc2
+
+* Press Enter twice when prompted to leave the passphrase blank.
+
+-------------------------------------------------------------------
+STEP 2: Force Ubuntu to Use the Custom Key
+-------------------------------------------------------------------
+Open your system's SSH configuration file:
+
+  nano ~/.ssh/config
+
+Paste the following exact lines at the top of the file:
+
+  Host github.com
+    IdentityFile ~/.ssh/id_ed25519_pc2
+
+* Save and exit the text editor by pressing: Ctrl+O, Enter, Ctrl+X.
+
+-------------------------------------------------------------------
+STEP 3: Register Key into the Session Agent
+-------------------------------------------------------------------
+Manually introduce the newly named key identity to your current session:
+
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_ed25519_pc2
+
+-------------------------------------------------------------------
+STEP 4: Copy and Link Public Key to GitHub
+-------------------------------------------------------------------
+Display your complete public key text output:
+
+  cat ~/.ssh/id_ed25519_pc2.pub
+
+1. Highlight and copy the entire string shown in the terminal.
+2. Go to GitHub -> Settings -> SSH and GPG keys -> New SSH Key.
+3. Name it "Ubuntu - PC 2", paste the key, and click Save.
+
+-------------------------------------------------------------------
+STEP 5: Switch Local Project Remote Target to SSH
+-------------------------------------------------------------------
+Navigate inside your project folder and swap out the old HTTPS link:
+
+  git remote set-url origin git@github.com:mahbub-it/e-Commerce-using-Lara-React.git
+
+-------------------------------------------------------------------
+STEP 6: Run Connection Diagnostics
+-------------------------------------------------------------------
+Test the live handshake directly against the server:
+
+  ssh -T git@github.com
+
+* Type "yes" if asked to confirm host authenticity.
+* Success output: "Hi mahbub-it! You've successfully authenticated..."
+
+-------------------------------------------------------------------
+STEP 7: Execute Passwordless Push
+-------------------------------------------------------------------
+Deploy your codebase up safely without passwords:
+
+  git push -u origin main
+===================================================================
+EOF
+
+enscript -p output.ps Ubuntu_PC2_Git_SSH_Guide.txt && ps2pdf output.ps Ubuntu_PC2_Git_SSH_Guide.pdf && rm output.ps Ubuntu_PC2_Git_SSH_Guide.txt

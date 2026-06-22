@@ -1,0 +1,40 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+
+doc = SimpleDocTemplate("Ubuntu_PC2_Git_SSH_Guide.pdf", pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
+styles = getSampleStyleSheet()
+
+title_style = ParagraphStyle('TitleStyle', parent=styles['Heading1'], fontSize=18, leading=22, textColor=colors.HexColor('#1E293B'), spaceAfter=12)
+h2_style = ParagraphStyle('H2Style', parent=styles['Heading2'], fontSize=13, leading=16, textColor=colors.HexColor('#2563EB'), spaceBefore=10, spaceAfter=4)
+body_style = ParagraphStyle('BodyStyle', parent=styles['Normal'], fontSize=10, leading=14, textColor=colors.HexColor('#334155'), spaceAfter=6)
+code_style = ParagraphStyle('CodeStyle', parent=styles['Code'], fontSize=9, leading=12, textColor=colors.HexColor('#0F172A'), backgroundColor=colors.HexColor('#F1F5F9'), borderPadding=6, spaceBefore=4, spaceAfter=6)
+
+story = [
+    Paragraph("Ubuntu PC 2: Passwordless Git Push Setup Guide", title_style),
+    Paragraph("This step-by-step tutorial configures your second Ubuntu machine to securely push code without a username or password using your specific GitHub profile and repository information.", body_style),
+    Spacer(1, 8),
+    Paragraph("Step 1: Generate a Unique SSH Key for PC 2", h2_style),
+    Paragraph("ssh-keygen -t ed25519 -C \"bdsmrahman@gmail.com\" -f ~/.ssh/id_ed25519_pc2", code_style),
+    Paragraph("Press Enter twice when asked for a passphrase to keep it empty.", body_style),
+    Paragraph("Step 2: Force Ubuntu to Use the Custom Key", h2_style),
+    Paragraph("nano ~/.ssh/config", code_style),
+    Paragraph("Paste the following lines into the file, then save (Ctrl+O, Enter, Ctrl+X):", body_style),
+    Paragraph("Host github.com<br/>&nbsp;&nbsp;IdentityFile ~/.ssh/id_ed25519_pc2", code_style),
+    Paragraph("Step 3: Register the Key into the Session Agent", h2_style),
+    Paragraph("eval \"$(ssh-agent -s)\"<br/>ssh-add ~/.ssh/id_ed25519_pc2", code_style),
+    Paragraph("Step 4: Copy and Add the Public Key to GitHub", h2_style),
+    Paragraph("cat ~/.ssh/id_ed25519_pc2.pub", code_style),
+    Paragraph("Copy the terminal output and paste it into GitHub Settings -> SSH and GPG keys -> New SSH Key.", body_style),
+    Paragraph("Step 5: Change the Local Repository Remote to SSH", h2_style),
+    Paragraph("git remote set-url origin git@github.com:mahbub-it/e-Commerce-using-Lara-React.git", code_style),
+    Paragraph("Step 6: Run Connection Diagnostics", h2_style),
+    Paragraph("ssh -T git@github.com", code_style),
+    Paragraph("Type 'yes' if asked. It should print: <i>'Hi mahbub-it! You've successfully authenticated...'</i>", body_style),
+    Paragraph("Step 7: Execute Passwordless Push", h2_style),
+    Paragraph("git push -u origin main", code_style)
+]
+
+doc.build(story)
+print("\n SUCCESS: 'Ubuntu_PC2_Git_SSH_Guide.pdf' has been generated in your current folder!")
