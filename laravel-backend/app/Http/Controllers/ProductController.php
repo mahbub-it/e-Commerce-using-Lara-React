@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->orderBy('id', 'desc')->paginate(5);
-        return $products; 
+        return $products;
     }
 
     /**
@@ -37,7 +37,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Product::with('category')->findOrFail($id);
+        return response()->json($product);
     }
 
     /**
