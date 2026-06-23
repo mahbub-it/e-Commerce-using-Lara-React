@@ -1,26 +1,25 @@
-import { useParams } from 'react-router-dom'
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
 import MainProductDetails from '../Components/Products/MainProductDetails'
-
-// fallback image used when a product image fails to load
-// file lives under public/images/avatar-530x290.png, so use /images/... URL
-const fallbackImage = '/images/avatar-530x290.png';
-const handleImgError = (e) => {
-  // prevent infinite loop if fallback also fails
-  e.currentTarget.onerror = null;
-  e.currentTarget.src = fallbackImage;
-};
+import FooterFixedMobile from '../Components/FooterFixedMobile'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const ProductDetail = () => {
-
   const {id} = useParams();
+
+  // Scroll to top when page load 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   return (
     <>
     <Header />
-    <MainProductDetails id={id} handleImgError={handleImgError} />
+    <MainProductDetails id={id} />
     <Footer />
+    <FooterFixedMobile />
     </>
   )
 }

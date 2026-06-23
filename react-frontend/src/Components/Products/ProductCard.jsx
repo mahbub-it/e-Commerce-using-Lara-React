@@ -11,7 +11,7 @@ const handleImgError = (e) => {
 };
 
 // Destructuring props
-const ProductGridCard = ({title, image, price, category}) => {
+const ProductGridCard = ({ id, title, image, price, category}) => {
  
   return (
     <>
@@ -24,7 +24,7 @@ const ProductGridCard = ({title, image, price, category}) => {
               data-settings='{"resizeObserver": true}'>
               <div className="swiper-wrapper">
                 <div className="swiper-slide">
-                    <Link to="product1_simple.html">
+                    <Link to={`/product/${id}`}>
                       <img loading="lazy" 
                       src={image || fallbackImage}
                       onError={handleImgError}
@@ -72,7 +72,7 @@ const ProductGridCard = ({title, image, price, category}) => {
           <div className="pc__info position-relative">
             <p className="pc__category">{category?.name || "Uncategorized"}</p>
             <h6 className="pc__title mb-2">
-              <Link to="product1_simple.html">{title}</Link>
+              <Link to={`/product/${id}`}>{title}</Link>
             </h6>
             <div className="product-card__price d-flex">
               <span className="money price">${price}</span>

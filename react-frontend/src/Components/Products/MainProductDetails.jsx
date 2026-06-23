@@ -1,39 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const MainProductDetails = ({ id, handleImgError }) => {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+const MainProductDetails = ( props ) => {
+ const { id } = props;
+ const [product, setProduct] = useState({});
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`http://localhost:8000/api/products/${id}`);
-        setProduct(response.data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+//  Send API request through axios the product details 
+ const getProduct = async () => { 
+  const response = await axios.get(`http://localhost:8000/api/products/${id}`);
 
-    if (id) {
-      fetchProduct();
-    }
-  }, [id]);
+  setProduct(response.data);  
 
-  if (loading) {
-    return <div className="container py-5 text-center">Loading product details...</div>;
-  }
+ }
 
-  if (!product) {
-    return <div className="container py-5 text-center">Product not found.</div>;
-  }
+ useEffect(() => {
+  getProduct();
+ }, [id]);
+
   return (
-    <>
-   
+    <>  
    <main>
     <div className="mb-md-1 pb-md-3" />
     <section className="product-single container">
@@ -54,11 +40,11 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={674}
                       height={674}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                     <a
                       data-fancybox="gallery"
-                      href="https://uomo-html.flexkitux.com/images/products/product_0.jpg"
+                      href="/assets/images/products/product-2-1.jpg"
                       data-bs-toggle="tooltip"
                       data-bs-placement="left"
                       title="Zoom"
@@ -82,7 +68,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={674}
                       height={674}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                     <a
                       data-fancybox="gallery"
@@ -110,7 +96,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={674}
                       height={674}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                     <a
                       data-fancybox="gallery"
@@ -138,7 +124,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={674}
                       height={674}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                     <a
                       data-fancybox="gallery"
@@ -192,7 +178,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={104}
                       height={104}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                   </div>
                   <div className="swiper-slide product-single__image-item">
@@ -203,7 +189,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={104}
                       height={104}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                   </div>
                   <div className="swiper-slide product-single__image-item">
@@ -214,7 +200,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={104}
                       height={104}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                   </div>
                   <div className="swiper-slide product-single__image-item">
@@ -225,7 +211,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       width={104}
                       height={104}
                       alt={product.name}
-                      onError={handleImgError}
+                      
                     />
                   </div>
                 </div>
@@ -869,7 +855,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       height={400}
                       alt="Cropped Faux leather Jacket"
                       className="pc__img"
-                      onError={handleImgError}
+                      
                     />
                     <img
                       loading="lazy"
@@ -878,7 +864,7 @@ const MainProductDetails = ({ id, handleImgError }) => {
                       height={400}
                       alt="Cropped Faux leather Jacket"
                       className="pc__img pc__img-second"
-                      onError={handleImgError}
+                      
                     />
                 </a>
                 <button
