@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\Setting;
 
-class ProductController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::with('category')->orderBy('id', 'desc')->paginate(5);
-        return $products;
+        $settings = Setting::all();
+        return $settings;
     }
 
     /**
@@ -37,8 +37,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with('category')->with('skus')->find($id);
-        return response()->json($product);
+        //
     }
 
     /**
