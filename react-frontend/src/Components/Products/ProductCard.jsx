@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 
 // fallback image used when a product image fails to load
@@ -12,6 +13,21 @@ const handleImgError = (e) => {
 
 // Destructuring props
 const ProductGridCard = ({ id, title, image, price, category}) => {
+
+  const add_to_cart = (id) => {
+    return () => {
+      alert("Product added to cart " + id);
+
+      // axios post request to add product id and quantity to cart 
+      axios.post('http://localhost:8000/api/cart', { product_id: id, quantity: 1 })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
  
   return (
     <>
@@ -65,7 +81,7 @@ const ProductGridCard = ({ id, title, image, price, category}) => {
                 xmlns="http://www.w3.org/2000/svg">
                 <use href="#icon_cart" />
               </svg>
-              <span className="d-inline-block align-middle">Add To Cart</span>
+              <span className="d-inline-block align-middle" onClick={add_to_cart(id)}>Add To Cart</span>
             </button>
           </div>
 

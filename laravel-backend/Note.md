@@ -69,3 +69,12 @@
 # For Database Backup
 
 - sudo mysqldump --user="root" --password="your_password" laravel_backend> laravel_backend.sql
+
+# Cart Controller
+
+- php artisan make:controller CartController --resource
+- php artisan route:list
+- php artisan make:migration create_carts_table
+- php artisan migrate
+- php artisan make:model Cart
+- php artisan route:list

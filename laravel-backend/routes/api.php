@@ -5,15 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Models\Product;
+use App\Http\Controllers\CartController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Route::get('/products', [ProductController::class, 'index']);
-
 // API Resource Route for ProductController
 Route::apiResource('products', ProductController::class);
+
+// API Resource Route for CartController
+Route::apiResource('cart', CartController::class);
 
 // API Resource Route for SettingController
 Route::apiResource('settings', SettingController::class);
