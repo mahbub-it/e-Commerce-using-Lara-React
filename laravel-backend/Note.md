@@ -63,3 +63,9 @@
 - php artisan migrate
 - php artisan make:model Sku
 - php artisan route:list
+
+# # Linux Commands
+
+# For Database Backup
+
+- sudo mysqldump --user="root" --password="your_password" laravel_backend> laravel_backend.sql

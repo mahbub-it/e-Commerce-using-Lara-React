@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
-const MainHeader = ({ onOpenLogin, onOpenCart, onOpenSitemap }) => {
+const MainHeader = ({settings, onOpenLogin, onOpenCart, onOpenSitemap }) => {
+
   return (
     <>
       {/* Header Type 5 */}
@@ -8,7 +9,7 @@ const MainHeader = ({ onOpenLogin, onOpenCart, onOpenSitemap }) => {
         <div className="header-desk header-desk_type_5">
           <div className="logo">
             <Link to="/">
-              <img src="/assets/images/dreamwebdev-logo.png" alt="Uomo" className="logo__image d-block" />
+              <img src={settings.logo_url || 'No Image'} alt="DreamWebdev" className="logo__image d-block" />
             </Link> 
           </div>
           {/* /.logo */}

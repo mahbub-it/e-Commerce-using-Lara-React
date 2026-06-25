@@ -5,16 +5,16 @@ import axios from 'axios';
 const MainProductDetails = ( props ) => {
  const { id } = props;
  const [product, setProduct] = useState({});
+ const [sku, setSku] = useState("");
 
 //  Send API request through axios the product details 
- const getProduct = async () => { 
-  const response = await axios.get(`http://localhost:8000/api/products/${id}`);
-
-  setProduct(response.data);  
-
- }
-
  useEffect(() => {
+  const getProduct = async () => {
+   const response = await axios.get(`http://localhost:8000/api/products/${id}`);
+   
+   setProduct(response.data);
+   setSku(response.data.skus?.sku ?? '');
+  };
   getProduct();
  }, [id]);
 
@@ -24,223 +24,220 @@ const MainProductDetails = ( props ) => {
     <div className="mb-md-1 pb-md-3" />
     <section className="product-single container">
       <div className="row">
+        
+        {/* Single Product Left Side Start */}
         <div className="col-lg-7">
-          <div
-            className="product-single__media"
-            data-media-type="vertical-thumbnail"
-          >
-            <div className="product-single__image">
-              <div className="swiper-container">
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={674}
-                      height={674}
-                      alt={product.name}
-                      
-                    />
-                    <a
-                      data-fancybox="gallery"
-                      href="/assets/images/products/product-2-1.jpg"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="left"
-                      title="Zoom"
-                    >
-                      <svg
-                        width={16}
-                        height={16}
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={674}
-                      height={674}
-                      alt={product.name}
-                      
-                    />
-                    <a
-                      data-fancybox="gallery"
-                      href="https://uomo-html.flexkitux.com/images/products/product_0-1.jpg"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="left"
-                      title="Zoom"
-                    >
-                      <svg
-                        width={16}
-                        height={16}
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={674}
-                      height={674}
-                      alt={product.name}
-                      
-                    />
-                    <a
-                      data-fancybox="gallery"
-                      href="https://uomo-html.flexkitux.com/images/products/product_0-2.jpg"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="left"
-                      title="Zoom"
-                    >
-                      <svg
-                        width={16}
-                        height={16}
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={674}
-                      height={674}
-                      alt={product.name}
-                      
-                    />
-                    <a
-                      data-fancybox="gallery"
-                      href="https://uomo-html.flexkitux.com/images/products/product_0-3.jpg"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="left"
-                      title="Zoom"
-                    >
-                      <svg
-                        width={16}
-                        height={16}
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <use href="#icon_zoom" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-                <div className="swiper-button-prev">
-                  <svg
-                    width={7}
-                    height={11}
-                    viewBox="0 0 7 11"
-                    xmlns="http://www.w3.org/2000/svg"
+        <div className="product-single__media" data-media-type="vertical-thumbnail">
+          <div className="product-single__image">
+            <div className="swiper-container">
+              <div className="swiper-wrapper">
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={674}
+                    height={674}
+                    alt=""
+                  />
+                  <a
+                    data-fancybox="gallery"
+                    href={product.image}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="left"
+                    title="Zoom"
                   >
-                    <use href="#icon_prev_sm" />
-                  </svg>
+                    <svg
+                      width={16}
+                      height={16}
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <use href="#icon_zoom" />
+                    </svg>
+                  </a>
                 </div>
-                <div className="swiper-button-next">
-                  <svg
-                    width={7}
-                    height={11}
-                    viewBox="0 0 7 11"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={674}
+                    height={674}
+                    alt=""
+                  />
+                  <a
+                    data-fancybox="gallery"
+                    href={product.image}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="left"
+                    title="Zoom"
                   >
-                    <use href="#icon_next_sm" />
-                  </svg>
+                    <svg
+                      width={16}
+                      height={16}
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <use href="#icon_zoom" />
+                    </svg>
+                  </a>
+                </div>
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={674}
+                    height={674}
+                    alt=""
+                  />
+                  <a
+                    data-fancybox="gallery"
+                    href={product.image}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="left"
+                    title="Zoom"
+                  >
+                    <svg
+                      width={16}
+                      height={16}
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <use href="#icon_zoom" />
+                    </svg>
+                  </a>
+                </div>
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={674}
+                    height={674}
+                    alt=""
+                  />
+                  <a
+                    data-fancybox="gallery"
+                    href={product.image}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="left"
+                    title="Zoom"
+                  >
+                    <svg
+                      width={16}
+                      height={16}
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <use href="#icon_zoom" />
+                    </svg>
+                  </a>
                 </div>
               </div>
+              <div className="swiper-button-prev">
+                <svg
+                  width={7}
+                  height={11}
+                  viewBox="0 0 7 11"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <use href="#icon_prev_sm" />
+                </svg>
+              </div>
+              <div className="swiper-button-next">
+                <svg
+                  width={7}
+                  height={11}
+                  viewBox="0 0 7 11"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <use href="#icon_next_sm" />
+                </svg>
+              </div>
             </div>
-            <div className="product-single__thumbnail">
-              <div className="swiper-container">
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={104}
-                      height={104}
-                      alt={product.name}
-                      
-                    />
-                  </div>
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={104}
-                      height={104}
-                      alt={product.name}
-                      
-                    />
-                  </div>
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={104}
-                      height={104}
-                      alt={product.name}
-                      
-                    />
-                  </div>
-                  <div className="swiper-slide product-single__image-item">
-                    <img
-                      loading="lazy"
-                      className="h-auto"
-                      src={product.image}
-                      width={104}
-                      height={104}
-                      alt={product.name}
-                      
-                    />
-                  </div>
+          </div>
+          <div className="product-single__thumbnail">
+            <div className="swiper-container">
+              <div className="swiper-wrapper">
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={104}
+                    height={104}
+                    alt=""
+                  />
+                </div>
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={104}
+                    height={104}
+                    alt=""
+                  />
+                </div>
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={104}
+                    height={104}
+                    alt=""
+                  />
+                </div>
+                <div className="swiper-slide product-single__image-item">
+                  <img
+                    loading="lazy"
+                    className="h-auto"
+                    src={product.image}
+                    width={104}
+                    height={104}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      {/* Single Product Left Side End */}
+      
+      {/* Single Product Right Side Start */}
         <div className="col-lg-5">
           <div className="d-flex justify-content-between mb-4 pb-md-2">
+            {/* Breadcrumb */}
             <div className="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-              <a
-                href="#"
+              <Link
+                to="/"
                 className="menu-link menu-link_us-s text-uppercase fw-medium"
               >
-                Home
-              </a>
+                Home 
+              </Link>
               <span className="breadcrumb-separator menu-link fw-medium ps-1 pe-1">
                 /
               </span>
-              <a
-                href="#"
+              <Link
+                to="/shop"
                 className="menu-link menu-link_us-s text-uppercase fw-medium"
               >
                 The Shop
-              </a>
+              </Link>
             </div>
             {/* /.breadcrumb */}
+            
+            {/* Product Prev Next */}
             <div className="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-              <a href="#" className="text-uppercase fw-medium disabled">
+              <span className="text-uppercase fw-medium disabled">
                 <svg
                   className="mb-1px"
                   width={10}
@@ -251,7 +248,7 @@ const MainProductDetails = ( props ) => {
                   <use href="#icon_prev_md" />
                 </svg>
                 <span className="menu-link menu-link_us-s">Prev</span>
-              </a>
+              </span>
               <a
                 href="product2_variable.html"
                 className="text-uppercase fw-medium"
@@ -268,11 +265,17 @@ const MainProductDetails = ( props ) => {
                 </svg>
               </a>
             </div>
+            {/* Product Prev Next End */}
+
             {/* /.shop-acs */}
           </div>
+          {/* Product Name */}
           <h1 className="product-single__name">
             {product.name}
           </h1>
+          {/* Product Name End */}
+
+          {/* Product Rating */}
           <div className="product-single__rating">
             <div className="reviews-group d-flex">
               <svg
@@ -315,14 +318,23 @@ const MainProductDetails = ( props ) => {
               8k+ reviews
             </span>
           </div>
+          {/* Product Rating End */}
+
+          {/* Product Price */}
           <div className="product-single__price">
             <span className="current-price">${product.price}</span>
           </div>
+          {/* Product Price End */}
+
+          {/* Product Short Description */}
           <div className="product-single__short-desc">
             <p>
               {product.description}
             </p>
           </div>
+          {/* Product Short Description End */}
+
+          {/* Product Add to Cart */}
           <form name="addtocart-form" method="post">
             <div className="product-single__addtocart">
               <div className="qty-control position-relative">
@@ -346,8 +358,11 @@ const MainProductDetails = ( props ) => {
               </button>
             </div>
           </form>
+          {/* Product Add to Cart End */}
+
+          {/* Product Add to Wishlist */}
           <div className="product-single__addtolinks">
-            <a href="#" className="menu-link menu-link_us-s add-to-wishlist">
+            <a href={product.id} className="menu-link menu-link_us-s add-to-wishlist">
               <svg
                 width={16}
                 height={16}
@@ -422,14 +437,17 @@ const MainProductDetails = ( props ) => {
               </details>
             </share-button>
           </div>
+          {/* Product Add to Wishlist End */}
+
+          {/* Product Meta Info */}
           <div className="product-single__meta-info">
             <div className="meta-item">
               <label>SKU:</label>
-              <span>N/A</span>
+              <span> {sku || 'N/A'}</span>  
             </div>
             <div className="meta-item">
-              <label>Categories:</label>
-              <span>{product.category?.name || 'Uncategorized'}</span>
+              <label>Categories: </label>
+              <span> {product.category?.name || 'Uncategorized'}</span>
             </div>
             <div className="meta-item">
               <label>Tags:</label>
@@ -437,7 +455,12 @@ const MainProductDetails = ( props ) => {
             </div>
           </div>
         </div>
+        {/* Single Product Right Side End */}
+
       </div>
+      {/* Single Product Right Side End */}
+
+      {/* Product Details Tab */}
       <div className="product-single__details-tab">
         <ul className="nav nav-tabs" id="myTab" role="tablist">
           <li className="nav-item" role="presentation">
@@ -802,7 +825,11 @@ const MainProductDetails = ( props ) => {
           </div>
         </div>
       </div>
+      {/* Product Details Tab End */}
+
+      {/* Related Products */}
     </section>
+    {/* Carousel */}
     <section className="products-carousel container">
       <h2 className="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">
         Related <strong>Products</strong>
@@ -1342,6 +1369,7 @@ const MainProductDetails = ( props ) => {
     </section>
     {/* /.products-carousel container */}
   </main>
+  {/* /.main-content */}
 
     </>
   )

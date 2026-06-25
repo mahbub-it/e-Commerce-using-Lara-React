@@ -12,8 +12,20 @@ class SettingController extends Controller
      */
     public function index()
     {
+        // Get all settings
         $settings = Setting::all();
-        return $settings;
+
+        $all_settings = [];
+
+        // Get logo
+        $logo = $settings->where('settings_key', 'logo_url')->first();
+        $all_settings['logo_url'] = $logo->settings_value;
+
+        // Get copyright info
+        $copyright_info = $settings->where('settings_key', 'copyright_info')->first();
+        $all_settings['copyright_info'] = $copyright_info->settings_value;
+
+        return $all_settings;
     }
 
     /**

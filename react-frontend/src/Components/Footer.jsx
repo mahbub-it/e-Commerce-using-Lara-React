@@ -1,7 +1,7 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Footer = () => {
+const Footer = ({logo_url, copyright_info}) => {
+
   return (
     <>
     {/* Footer Type 2 */}
@@ -25,7 +25,7 @@ const Footer = () => {
               <div className="footer-column footer-store-info col-12 mb-4 mb-lg-0">
                 <div className="logo">
                   <Link to="/">
-                    <img src="/assets/images/dreamwebdev-logo.png" alt="Uomo"
+                    <img src={logo_url || 'No Image'} alt="Uomo"
                       className="logo__image d-block" />
                   </Link>
                 </div>
@@ -172,7 +172,7 @@ const Footer = () => {
 
           <div className="footer-bottom">
   <div className="container d-md-flex align-items-center">
-    <span className="footer-copyright me-auto">©2023 Uomo</span>
+    <span className="footer-copyright me-auto">{copyright_info || 'No Copyright Info'}</span>
     <div className="footer-settings d-md-flex align-items-center">
       
       {/* 1. Language Select - Fixed with defaultValue */}

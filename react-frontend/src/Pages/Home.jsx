@@ -1,7 +1,4 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// Core Layout Components
+import { Routes, Route } from 'react-router-dom';
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import FooterFixedMobile from "../Components/FooterFixedMobile";
@@ -13,13 +10,32 @@ import NewsLetterPopup from "../Components/NewsLetterPopup";
 import PageOverlay from "../Components/PageOverlay";
 import ScrollToTop from "../Components/ScrollToTop";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-// Page Component Targets (Ensure src/Pages/ folder exists)
 import Shop from "./Shop";
 import ProductDetail from "./ProductDetail";
 import Main from "../Components/Main";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Home = () => {
+
+   // API call for settings
+  const [settings, setSettings] = useState([]);
+  
+    const settingsCall = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/settings');
+      
+        setSettings(response.data);
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    };
+  
+    useEffect(() => {
+      settingsCall();
+    }, []);
+    // API call end
+
   // Global UI States
   const [activeOverlay, setActiveOverlay] = useState(null);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(true);
@@ -31,7 +47,7 @@ const Home = () => {
   return (
     <>
       {/* Navigation triggers */}
-        <Header 
+        <Header settings={settings}
           onOpenLogin={() => setActiveOverlay('login')}
           onOpenCart={() => setActiveOverlay('cart')}
           onOpenSitemap={() => setActiveOverlay('sitemap')}
@@ -49,7 +65,7 @@ const Home = () => {
 
         <Footer />
         
-        <FooterFixedMobile 
+        <FooterFixedMobile settings={settings}
           onOpenLogin={() => setActiveOverlay('login')}
           onOpenCart={() => setActiveOverlay('cart')}
           onOpenSitemap={() => setActiveOverlay('sitemap')}

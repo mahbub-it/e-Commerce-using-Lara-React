@@ -3,9 +3,29 @@ import Footer from '../Components/Footer'
 import MainProductDetails from '../Components/Products/MainProductDetails'
 import FooterFixedMobile from '../Components/FooterFixedMobile'
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const ProductDetail = () => {
+
+  // API call for settings
+  const [settings, setSettings] = useState([]);
+  
+    const settingsCall = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/settings');
+      
+        setSettings(response.data);
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    };
+  
+    useEffect(() => {
+      settingsCall();
+    }, []);
+    // API call end
+
   const {id} = useParams();
 
   // Scroll to top when page load 
@@ -16,10 +36,10 @@ const ProductDetail = () => {
 
   return (
     <>
-    <Header />
+    <Header settings={settings} />
     <MainProductDetails id={id} />
-    <Footer />
-    <FooterFixedMobile />
+    <Footer settings={settings} />
+    <FooterFixedMobile settings={settings} />
     </>
   )
 }
