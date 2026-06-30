@@ -1,6 +1,17 @@
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-const CardDrawer = ({ onClose }) => {
+const CartDrawer = ({ onClose, getCookie }) => {
+
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    setCartItems(  
+      getCookie("cart_items") ? JSON.parse(getCookie("cart_items")) : []
+    );
+  }, [getCookie]);
+
   return (
     <>
       <div className="page-overlay page-overlay_visible" onClick={onClose} />
@@ -8,7 +19,7 @@ const CardDrawer = ({ onClose }) => {
         <div className="aside-header d-flex align-items-center">
           <h3 className="text-uppercase fs-6 mb-0">
             SHOPPING BAG (
-            <span className="cart-amount js-cart-items-count">1</span> )
+            <span className="cart-amount js-cart-items-count">{cartItems.length}</span> )
           </h3>
           <button className="btn-close-lg btn-close-aside ms-auto" onClick={onClose}></button>
         </div>
@@ -121,4 +132,4 @@ const CardDrawer = ({ onClose }) => {
   )
 }
 
-export default CardDrawer
+export default CartDrawer

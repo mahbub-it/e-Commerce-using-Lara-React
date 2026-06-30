@@ -51,8 +51,11 @@ const ProductCard = ({ id, title, image, price, category }) => {
     // convert cart into json
     const cart_json = JSON.stringify(cart);
 
-    // save product id to cookie
-    document.cookie = "cart_items=" + cart_json;
+    // save product id to cookie with path=/
+    document.cookie = "cart_items=" + cart_json + "; path=/";
+
+    // dispatch custom event to trigger state updates in other components
+    window.dispatchEvent(new CustomEvent("cart-update"));
   };
 
   const get_cart_items = () => {};

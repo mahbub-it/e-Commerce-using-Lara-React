@@ -3,7 +3,6 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import FooterFixedMobile from "../Components/FooterFixedMobile";
 import LoginForm from "../Components/LoginForm";
-import CardDrawer from "../Components/CardDrawer";
 import SiteMap from "../Components/SiteMap";
 import QuickView from "../Components/QuickView";
 import NewsLetterPopup from "../Components/NewsLetterPopup";
@@ -14,11 +13,31 @@ import ProductDetail from "./ProductDetail";
 import Main from "../Components/Main";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import CartDrawer from '../Components/CartDrawer';
+
+const getCookie = (cname) => {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  };
 
 const Home = () => {
 
    // API call for settings
   const [settings, setSettings] = useState([]);
+
+  // Cart items state
+  const [cartItems, setCartItems] = useState([]);
   
     const settingsCall = async () => {
       try {
@@ -40,12 +59,24 @@ const Home = () => {
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(true);
 
   useEffect(() => {
+    const updateCart = () => {
+      const items = getCookie("cart_items") ? JSON.parse(getCookie("cart_items")) : [];
+      setCartItems(items);
+    };
     const handleOpenCart = () => {
+      updateCart();
       setActiveOverlay('cart');
     };
+    updateCart();
     window.addEventListener('open-cart', handleOpenCart);
-    return () => window.removeEventListener('open-cart', handleOpenCart);
+    window.addEventListener('cart-update', updateCart);
+    return () => {
+      window.removeEventListener('open-cart', handleOpenCart);
+      window.removeEventListener('cart-update', updateCart);
+    };
   }, []);
+
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
     if (activeOverlay) {
@@ -72,6 +103,7 @@ const Home = () => {
     <>
       {/* Navigation triggers */}
         <Header settings={settings}
+          cartCount={cartCount}
           onOpenLogin={() => setActiveOverlay('login')}
           onOpenCart={() => setActiveOverlay('cart')}
           onOpenSitemap={() => setActiveOverlay('sitemap')}
@@ -97,7 +129,11 @@ const Home = () => {
 
         {/* Conditional global modules */}
         {activeOverlay === 'login' && <LoginForm onClose={closeAllOverlays} />}
-        {activeOverlay === 'cart' && <CardDrawer onClose={closeAllOverlays} />}
+        {activeOverlay === 'cart' && <CartDrawer
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          onClose={closeAllOverlays} 
+          getCookie={getCookie} />}
         {activeOverlay === 'sitemap' && <SiteMap onClose={closeAllOverlays} />}
         {activeOverlay === 'quickview' && <QuickView onClose={closeAllOverlays} />}
 

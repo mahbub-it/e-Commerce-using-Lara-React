@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const MainHeader = ({settings, onOpenLogin, onOpenCart, onOpenSitemap }) => {
+const MainHeader = ({settings, cartCount, onOpenLogin, onOpenCart, onOpenSitemap }) => {
 
   return (
     <>
@@ -330,7 +330,7 @@ const MainHeader = ({settings, onOpenLogin, onOpenCart, onOpenSitemap }) => {
             xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_cart" />
           </svg>
-          <span className="cart-amount d-block position-absolute js-cart-items-count">3</span>
+          <span className="cart-amount d-block position-absolute js-cart-items-count">{cartCount}</span>
         </Link>
 
         <Link className="header-tools__item" to="#" onClick={(e) => {
