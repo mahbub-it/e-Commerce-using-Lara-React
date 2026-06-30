@@ -1,10 +1,9 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 const CardDrawer = ({ onClose }) => {
   return (
     <>
-      <div className="page-overlay" onClick={onClose} />
+      <div className="page-overlay page-overlay_visible" onClick={onClose} />
       <div className="aside aside_right aside_visible overflow-hidden cart-drawer">
         <div className="aside-header d-flex align-items-center">
           <h3 className="text-uppercase fs-6 mb-0">

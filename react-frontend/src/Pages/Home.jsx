@@ -7,7 +7,6 @@ import CardDrawer from "../Components/CardDrawer";
 import SiteMap from "../Components/SiteMap";
 import QuickView from "../Components/QuickView";
 import NewsLetterPopup from "../Components/NewsLetterPopup";
-import PageOverlay from "../Components/PageOverlay";
 import ScrollToTop from "../Components/ScrollToTop";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Shop from "./Shop";
@@ -39,6 +38,31 @@ const Home = () => {
   // Global UI States
   const [activeOverlay, setActiveOverlay] = useState(null);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(true);
+
+  useEffect(() => {
+    const handleOpenCart = () => {
+      setActiveOverlay('cart');
+    };
+    window.addEventListener('open-cart', handleOpenCart);
+    return () => window.removeEventListener('open-cart', handleOpenCart);
+  }, []);
+
+  useEffect(() => {
+    if (activeOverlay) {
+      document.body.classList.add('overflow-hidden');
+      const scrollWidth = window.innerWidth - document.body.clientWidth + 'px';
+      document.body.style.paddingRight = scrollWidth;
+      document.querySelectorAll('.header_sticky, .footer-mobile').forEach(element => {
+        element.style.borderRight = scrollWidth + ' solid transparent';
+      });
+    } else {
+      document.body.classList.remove('overflow-hidden');
+      document.body.style.paddingRight = '';
+      document.querySelectorAll('.header_sticky, .footer-mobile').forEach(element => {
+        element.style.borderRight = '';
+      });
+    }
+  }, [activeOverlay]);
 
   // Close actions
   const closeAllOverlays = () => setActiveOverlay(null);
@@ -80,8 +104,6 @@ const Home = () => {
         {isNewsletterOpen && <NewsLetterPopup onClose={closeNewsletter} />}
 
         <ScrollToTop />
-
-        {activeOverlay && <PageOverlay onClick={closeAllOverlays} />}
     </>
   );
 };

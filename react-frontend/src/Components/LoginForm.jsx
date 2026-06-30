@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 const LoginForm = ({ onClose }) => {
   return (
     <>
-      <div className="page-overlay" onClick={onClose} />
+      <div className="page-overlay page-overlay_visible" onClick={onClose} />
       <div className="aside aside_right aside_visible overflow-hidden customer-forms">
         <div className="customer-forms__wrapper d-flex position-relative">
           <div className="customer__login">

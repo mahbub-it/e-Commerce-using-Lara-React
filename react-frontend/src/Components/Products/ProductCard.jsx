@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
-
+import { useEffect } from "react";
 
 // fallback image used when a product image fails to load
 // file lives under public/images/avatar-530x290.png, so use /images/... URL
@@ -11,23 +10,56 @@ const handleImgError = (e) => {
   e.currentTarget.src = fallbackImage;
 };
 
-// Destructuring props
-const ProductGridCard = ({ id, title, image, price, category}) => {
-
-  const add_to_cart = (id) => {
-    return () => {
-      alert("Product added to cart " + id);
-
-      // axios post request to add product id and quantity to cart 
-      axios.post('http://localhost:8000/api/cart', { product_id: id, quantity: 1 })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+const ProductCard = ({ id, title, image, price, category }) => {
+  const getCookie = (cname) => {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
     }
-  }
+    return "";
+  };
+
+  const add_to_cart = () => {
+
+    // get cart items from cookie
+    const cart_items = getCookie("cart_items");
+
+    const cart = cart_items ? JSON.parse(cart_items) : [];
+
+    // check if product_id exists
+    const product_index = cart.findIndex((item) => item.product_id === id);
+
+    window.dispatchEvent(new CustomEvent("open-cart"));
+
+    if (product_index !== -1) {
+      cart[product_index].quantity++;
+    } else {
+      cart.push({
+        product_id: id,
+        quantity: 1,
+      });
+    }
+
+    // convert cart into json
+    const cart_json = JSON.stringify(cart);
+
+    // save product id to cookie
+    document.cookie = "cart_items=" + cart_json;
+  };
+
+  const get_cart_items = () => {};
+
+  useEffect(() => {
+    get_cart_items();
+  }, []);
  
   return (
     <>
@@ -71,6 +103,7 @@ const ProductGridCard = ({ id, title, image, price, category}) => {
               className="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside bg-secondary bg-gradient text-white"
               data-aside="cartDrawer"
               title="Add To Cart"
+              onClick={() => add_to_cart(id)}
             >
               <svg
                 className="d-inline-block align-middle mx-2"
@@ -81,7 +114,7 @@ const ProductGridCard = ({ id, title, image, price, category}) => {
                 xmlns="http://www.w3.org/2000/svg">
                 <use href="#icon_cart" />
               </svg>
-              <span className="d-inline-block align-middle" onClick={add_to_cart(id)}>Add To Cart</span>
+              <span className="d-inline-block align-middle">Add To Cart</span>
             </button>
           </div>
 
@@ -114,4 +147,4 @@ const ProductGridCard = ({ id, title, image, price, category}) => {
   )
 }
 
-export default ProductGridCard
+export default ProductCard
