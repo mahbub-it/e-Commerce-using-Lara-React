@@ -15,21 +15,21 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import CartDrawer from '../Components/CartDrawer';
 
-const getCookie = (cname) => {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == " ") {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  };
+// const getCookie = (cname) => {
+//     let name = cname + "=";
+//     let decodedCookie = decodeURIComponent(document.cookie);
+//     let ca = decodedCookie.split(";");
+//     for (let i = 0; i < ca.length; i++) {
+//       let c = ca[i];
+//       while (c.charAt(0) === " ") {
+//         c = c.substring(1);
+//       }
+//       if (c.indexOf(name) === 0) {
+//         return c.substring(name.length, c.length);
+//       }
+//     }
+//     return "";
+//   };
 
 const Home = () => {
 
@@ -59,20 +59,12 @@ const Home = () => {
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(true);
 
   useEffect(() => {
-    const updateCart = () => {
-      const items = getCookie("cart_items") ? JSON.parse(getCookie("cart_items")) : [];
-      setCartItems(items);
-    };
     const handleOpenCart = () => {
-      updateCart();
       setActiveOverlay('cart');
     };
-    updateCart();
     window.addEventListener('open-cart', handleOpenCart);
-    window.addEventListener('cart-update', updateCart);
     return () => {
       window.removeEventListener('open-cart', handleOpenCart);
-      window.removeEventListener('cart-update', updateCart);
     };
   }, []);
 
@@ -112,7 +104,7 @@ const Home = () => {
         {/* 3. Main Section container wraps the core application page views */}
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main cartItems={cartItems} setCartItems={setCartItems} />} />
             <Route path="/shop" element={<Shop />} />
             {/* Dynamic route using the :slug parameter */}
             <Route path="/product/:slug" element={<ProductDetail />} />
@@ -132,8 +124,8 @@ const Home = () => {
         {activeOverlay === 'cart' && <CartDrawer
           cartItems={cartItems}
           setCartItems={setCartItems}
-          onClose={closeAllOverlays} 
-          getCookie={getCookie} />}
+          onClose={closeAllOverlays}
+          setCartDrawerOpen={() => setActiveOverlay(null)} />}
         {activeOverlay === 'sitemap' && <SiteMap onClose={closeAllOverlays} />}
         {activeOverlay === 'quickview' && <QuickView onClose={closeAllOverlays} />}
 

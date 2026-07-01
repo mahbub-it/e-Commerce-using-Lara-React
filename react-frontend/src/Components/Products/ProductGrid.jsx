@@ -3,7 +3,7 @@ import ProductCard from "./ProductCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const ProductGrid = () => {
+const ProductGrid = ({ cartItems, setCartItems }) => {
 
   const [products, setProducts] = useState([]);
 
@@ -106,7 +106,9 @@ const ProductGrid = () => {
                 title={product.name} 
                 image={product.image} 
                 price={product.price} 
-                category={product.category} />
+                category={product.category}
+                cartItems={cartItems}
+                setCartItems={setCartItems} />
               ))}
               {/* Single ProductGridCard End */}
 

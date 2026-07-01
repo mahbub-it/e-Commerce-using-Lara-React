@@ -8,7 +8,7 @@ import SwiperSlider from './SwiperSlider';
 import Instagram from './Instagram';
 import ServicePromotion from './ServicePromotion';
 
-const Main = () => {
+const Main = ({ cartItems, setCartItems }) => {
     return (
         <main>
 
@@ -19,7 +19,7 @@ const Main = () => {
         <div className="mb-1 pb-4 mb-xl-5 pb-xl-5"></div>
 
       {/* Best Selling Products */}
-        < ProductGrid />
+        < ProductGrid cartItems={cartItems} setCartItems={setCartItems} />
         {/* /.products-grid */}
 
         < div className="mb-5 pb-4" ></div >
